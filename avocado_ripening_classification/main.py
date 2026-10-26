@@ -1,5 +1,5 @@
 """Compare trained classical and MobileNetV2 models on one image.
-Usage: python main_demo.py --image path/to/avocado.jpg
+Usage: python main.py --image path/to/avocado.jpg
 Models are created only after running the training pipeline.
 """
 import argparse, time

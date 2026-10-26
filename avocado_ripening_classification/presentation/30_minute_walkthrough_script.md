@@ -34,11 +34,11 @@ Show the comparison CSV and confusion matrices. Explain actual differences, not 
 “Using validation macro F1, [selected model] was selected at [actual validation score]. Its held-out test macro F1 is [actual test score]. I also check per-class recall and the confusion matrix, because a high overall score can hide errors in a less common class. The likely error cases include glare, shadows, cultivar-specific color, and the gradual boundary between breaking and ripe. These are hypotheses until confirmed by reviewing the actual misclassified examples.”
 
 ## 25:00–27:00 — Live demo
-“I will pass an image path to `main_demo.py`. The script runs any available trained SVM, Random Forest, and MobileNetV2 artifacts, prints each predicted stage and probability where available, and displays the image with labels. The demo depends on model files created by training; the repository does not pretend placeholder files are trained models.”
+“I will pass an image path to `main.py`. The script runs any available trained SVM, Random Forest, and MobileNetV2 artifacts, prints each predicted stage and probability where available, and displays the image with labels. The demo depends on model files created by training; the repository does not pretend placeholder files are trained models.”
 
 Run:
 ```bash
-python main_demo.py --image data/raw/ripe/<actual_test_image>.jpg
+python main.py --image data/raw/ripe/<actual_test_image>.jpg
 ```
 Record input filename, predictions and whether models agree.
 

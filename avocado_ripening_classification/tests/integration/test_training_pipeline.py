@@ -6,7 +6,7 @@ from PIL import Image
 from src.classical_model import train_classical
 from src.dataset import discover_dataset, stratified_split
 from src.deep_learning_model import train_mobilenet, load_mobilenet
-from main_demo import predict_classical, predict_dl, save_prediction_summary
+from main import predict_classical, predict_dl, save_prediction_summary
 
 
 CLASS_NAMES = ["underripe", "breaking", "ripe", "overripe"]

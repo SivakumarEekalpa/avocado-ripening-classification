@@ -45,7 +45,7 @@ pip install -r requirements.txt
 Run the automated checks from the repository root:
 ```bash
 python -m pytest
-python -m pytest --cov=src --cov=main_demo --cov=train --cov=download_dataset --cov-report=term-missing
+python -m pytest --cov=src --cov=main --cov=train --cov=download_dataset --cov-report=term-missing
 ```
 
 ## Download and prepare data
@@ -79,7 +79,7 @@ The default `--num-workers 0` is intentional for Windows and notebook compatibil
 
 ## Demo inference
 ```bash
-python main_demo.py --image data/raw/ripe/example.jpg
+python main.py --image data/raw/ripe/example.jpg
 ```
 It prints SVM, RF, and MobileNetV2 predictions when corresponding model artifacts exist, saves the available predictions as JSON under `outputs/predictions/`, and displays the image with predictions. Pass `--output path/to/prediction.json` to choose a different JSON path. Missing model files are reported rather than silently substituted. Classical probabilities are confidence scores from the fitted estimators, not guaranteed calibrated probabilities.
 
@@ -99,7 +99,7 @@ avocado_ripening_classification/
 ├── requirements.txt
 ├── download_dataset.py
 ├── train.py
-├── main_demo.py
+├── main.py
 ├── data/{raw,processed}/
 ├── notebooks/{01_EDA,02_Classical_ML,03_Deep_Learning,04_Model_Comparison}.ipynb
 ├── src/{dataset,preprocessing,feature_extraction,classical_model,deep_learning_model,evaluation,utils}.py

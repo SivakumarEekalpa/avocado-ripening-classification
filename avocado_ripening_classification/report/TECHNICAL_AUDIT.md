@@ -37,7 +37,7 @@ These are reviewer estimates for implementation and evidence. No accuracy or mod
 | Four notebooks | Yes | Notebook JSON and code syntax validate; all notebooks were executed and stopped at dataset discovery because there are no images | **Blocker** |
 | Dataset/classical/deep-learning/evaluation modules | Yes | More modular filenames than reference; all core functions are present | Medium |
 | `models/` | Folder exists | README only; no trained `.joblib` or `.pth` artifacts | **Blocker** |
-| `main_demo.py` | Yes | SVM/RF/MobileNet inference paths exist; predictions are saved as JSON; synthetic inference tested | High |
+| `main.py` | Yes | SVM/RF/MobileNet inference paths exist; predictions are saved as JSON; synthetic inference tested | High |
 | Assignment report | DOCX/PDF and Markdown exist | Markdown source improved; DOCX/PDF are templates and are not regenerated or populated with measured results | **Blocker** |
 | GitHub repository URL | No project link | Current folder is not its own Git root; the detected Git root is `C:\Users\sivak`. Do not commit from that parent. Create/publish a dedicated project repository. | **Blocker** |
 | Colab link | No | Create a view-accessible Colab notebook and add its URL | **Blocker** |
@@ -60,7 +60,7 @@ The reference names `src/dl_model.py`; the equivalent implementation is `src/dee
 | `src/evaluation.py` | Metrics and plots | Added weighted F1, per-class report, ROC-AUC/OVR ROC curves, confusion matrices, validation-based selection rank; probability columns are reordered for scikit-learn's sorted-label ROC-AUC requirement | High (fixed) |
 | `train.py` | End-to-end orchestration | Resolves paths from project root, guards arguments, compares only files from the current run, selects on validation macro F1 rather than test F1, documents skipped DL | High (fixed) |
 | `download_dataset.py` | Dataset download | Explicitly downloads only; ZIP extraction remains a documented manual step. It fails explicitly if `gdown` fails | Low |
-| `main_demo.py` | Single-image comparison | Added corrupt-image validation and synchronized GPU inference timing; demo artifacts must be trusted because Joblib uses pickle-based serialization | Medium (fixed/documented) |
+| `main.py` | Single-image comparison | Added corrupt-image validation and synchronized GPU inference timing; demo artifacts must be trusted because Joblib uses pickle-based serialization | Medium (fixed/documented) |
 
 ## Notebook review
 
@@ -112,7 +112,7 @@ The integration test uses synthetic images with `pretrained=False`; it is a pipe
 | Transfer-learning CNN | ✅ MobileNetV2 implemented | Run with ImageNet pretrained weights on actual data |
 | Stratified 70/15/15 split | ✅ Implemented with safeguards | Preserve/submit the generated manifest |
 | Metrics and model comparison | ✅ Implemented | Generate actual values and explain selection based on validation |
-| Example run demonstrating both approaches | ⚠️ Script and paths exist | Run `main_demo.py` using a held-out image and capture its output; JSON persistence is implemented but no trained real-data model exists |
+| Example run demonstrating both approaches | ⚠️ Script and paths exist | Run `main.py` using a held-out image and capture its output; JSON persistence is implemented but no trained real-data model exists |
 | Report with dataset/model rationale/metrics | ⚠️ Markdown source exists | Fill actual findings, regenerate DOCX/PDF, verify consistency |
 | Mandatory Q1 production performance | ⚠️ Safe methodology written | Measure on target hardware; do not reuse reference speed figures as measured results |
 | Mandatory Q2 drawbacks | ✅ Addressed in report source | Review for candidate-specific observations |
@@ -126,11 +126,11 @@ The integration test uses synthetic images with `pretrained=False`; it is a pipe
 
 1. Create a dedicated project Git repository; do not commit from the detected parent Git root `C:\Users\sivak`.
 2. Obtain the correct four-stage ripeness dataset. The current `download_dataset.py` Drive link downloads an incompatible archive; do not extract or train on it. Confirm the four expected class folders before proceeding.
-3. Run `python -m pytest` and `python -m pytest --cov=src --cov=main_demo --cov=train --cov=download_dataset --cov-report=term-missing`, then `python train.py --data data/raw --epochs 15` with pretrained weights enabled and documented runtime/hardware.
+3. Run `python -m pytest` and `python -m pytest --cov=src --cov=main --cov=train --cov=download_dataset --cov-report=term-missing`, then `python train.py --data data/raw --epochs 15` with pretrained weights enabled and documented runtime/hardware.
 4. Run `notebooks/01_EDA.ipynb`; review corrupt-image and outlier CSVs, plots, class imbalance, brightness/lighting, and border-color proxy. Document limitations and actual observations.
 5. Review `data/processed/split_manifest.csv`; obtain fruit/session IDs and use group-aware splitting if the dataset contains repeated fruit/views.
 6. Review `outputs/metrics/` and `outputs/confusion_matrices/`; select by validation macro F1, then report the held-out test metrics without tuning against them.
-7. Run `python main_demo.py --image <held-out-test-image>`; save an evidence screenshot and record predictions. The JSON summary is written to `outputs/predictions/<image>_prediction.json`.
+7. Run `python main.py --image <held-out-test-image>`; save an evidence screenshot and record predictions. The JSON summary is written to `outputs/predictions/<image>_prediction.json`.
 8. Complete `report/REPORT_CONTENT.md` with real counts/metrics/observations, write Q4 from your own time log, and regenerate/verify `Assignment_Report.docx` and `Assignment_Report.pdf`.
 9. Publish the project-specific GitHub repository; create and test the view-accessible Colab link; record the 30-minute walkthrough.
 10. Confirm all links, report fields, and recorded results are consistent before submission.
@@ -176,7 +176,7 @@ data/raw/
 | `models/` | Yes | Synthetic model save/load tested | No real `.joblib` or `.pth` model |
 | `outputs/` | Yes | Directory layout exists | No real metrics, plots, confusion matrices or predictions |
 | `report/` | Yes | Markdown report covers required topics | Actual counts/metrics, regenerated DOCX/PDF, candidate-specific Q4 |
-| `main_demo.py` | Yes | Synthetic SVM/RF/MobileNet inference passes; JSON persistence tested | Real trained models and held-out image |
+| `main.py` | Yes | Synthetic SVM/RF/MobileNet inference passes; JSON persistence tested | Real trained models and held-out image |
 | `train.py` | Yes | CLI guards and orchestration tests pass | Real dataset required for training |
 | `src/dataset.py` | Yes | Alias, validation, duplicate and split tests pass | Actual image audit |
 | `src/evaluation.py` | Yes | Metric, classification-report, ROC and plot tests pass | Actual test predictions |
@@ -189,8 +189,8 @@ The requested `dataset.py` and `evaluation.py` are implemented under `src/`, rat
 |---|---|
 | `.venv\Scripts\python.exe -m pip install -r requirements.txt` | Passed in the isolated Python 3.14.7 environment |
 | `.venv\Scripts\python.exe -m pip check` | `No broken requirements found.` |
-| `.venv\Scripts\python.exe -m compileall -q src tests train.py main_demo.py download_dataset.py` | Passed |
-| `.venv\Scripts\python.exe -m pytest --cov=src --cov=main_demo --cov=train --cov=download_dataset --cov-report=term-missing -q` | `31 passed`; total source statement coverage `93%` |
+| `.venv\Scripts\python.exe -m compileall -q src tests train.py main.py download_dataset.py` | Passed |
+| `.venv\Scripts\python.exe -m pytest --cov=src --cov=main --cov=train --cov=download_dataset --cov-report=term-missing -q` | `31 passed`; total source statement coverage `93%` |
 | `python download_dataset.py --output <temporary-file>` | Downloaded 145 MB; inspected 1,090 images; archive contains different disease/appearance labels |
 | `.venv\Scripts\python.exe train.py --data data/raw --epochs 1 --no-pretrained` | Blocked at discovery: no supported images under `data/raw/` |
 | Execute `notebooks/01_EDA.ipynb` | Blocked at dataset discovery: no supported images |
