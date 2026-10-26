@@ -1,0 +1,1 @@
+Model artifacts are intentionally not fabricated. Run `python train.py --data data/raw` to create svm_model.joblib, rf_model.joblib and mobilenetv2.pth. The files must be trained on the provided dataset before inference.
